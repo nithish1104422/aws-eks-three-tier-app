@@ -1,0 +1,40 @@
+replicaCount: 2
+
+image:
+  repository: your-dockerhub-user/frontend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "istio"
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: frontend.example.com
+      paths:
+        - /
+  tls:
+    - secretName: frontend-tls
+      hosts:
+        - frontend.example.com
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env:
+  - name: BACKEND_URL
+    value: "http://backend.default.svc.cluster.local:8080"
