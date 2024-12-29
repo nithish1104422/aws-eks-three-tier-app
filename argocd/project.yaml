@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: three-tier-project
+  namespace: argocd
+spec:
+  description: Project for managing the three-tier Java application.
+  sourceRepos:
+    - https://github.com/<your-repo-name>  # Replace with your GitHub repo URL
+  destinations:
+    - namespace: default
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceBlacklist:
+    - group: '*'
+      kind: ResourceQuota
+  syncWindows: []
