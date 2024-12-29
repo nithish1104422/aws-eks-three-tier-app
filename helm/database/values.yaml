@@ -1,0 +1,48 @@
+replicaCount: 1
+
+image:
+  repository: mysql
+  tag: "8.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3306
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: ""  # Use "" for default storage class
+  accessModes:
+    - ReadWriteOnce
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "512Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env:
+  - name: MYSQL_ROOT_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: database-credentials
+        key: root-password
+  - name: MYSQL_DATABASE
+    value: "mydb"
+  - name: MYSQL_USER
+    valueFrom:
+      secretKeyRef:
+        name: database-credentials
+        key: username
+  - name: MYSQL_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: database-credentials
+        key: password
