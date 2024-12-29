@@ -1,0 +1,1 @@
+This project automates the deployment of a secure and scalable infrastructure on AWS using Terraform. It provisions an EKS cluster within a custom VPC, complete with public and private subnets. A three-tier Java application is deployed using Helm, Istio for service mesh, and ArgoCD for GitOps-driven continuous delivery.
